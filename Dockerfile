@@ -5,7 +5,7 @@ FROM rust
 COPY ./ ./
 
 # Build your program for release
-RUN cargo build --release
+RUN cargo build
 
 # Run the binary
-CMD ["./target/release/apirust"]
+CMD ["cargo","run"]

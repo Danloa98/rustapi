@@ -10,4 +10,4 @@ RUN cargo build --release
 EXPOSE 8080
 
 # Run the binary
-CMD    ["cargo","run"]
+CMD ["./target/release/holodeck"]

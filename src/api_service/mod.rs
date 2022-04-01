@@ -1,6 +1,6 @@
 // External imports
 use bson::{doc, Document};
-use mongodb::results::{DeleteResult, UpdateResult, InsertOneResult};
+use mongodb::results::{ UpdateResult, InsertOneResult};
 use mongodb::{error::Error, Collection};
 use serde::{Deserialize, Serialize};
 // External constructors
@@ -10,8 +10,11 @@ extern crate serde_json;
 // Estructure data for DB
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Data {
-    pub title: String,
-    pub author: String,
+    pub game_id: i32,
+    pub players: i32,
+    pub game_name: String,
+    pub winner: i32,
+    pub queue: String,
 }
 
 // Reference colection clone
@@ -23,12 +26,18 @@ pub struct ApiService {
 // Transform data to mongo db document
 fn data_to_document(data: &Data) -> Document {
     let Data {
-        title,
-        author,
+        game_id,
+        players,
+        game_name,
+        winner,
+        queue,
     } = data;
     doc! {
-        "title": title,
-        "author": author,
+        "game_id": game_id,
+        "players": players,
+        "game_name": game_name,
+        "winner" : winner,
+        "queue": queue,
     }
 }
 
@@ -50,9 +59,9 @@ impl ApiService {
     }
 
     // Delete some document
-    pub fn delete(&self, _title: &String) -> Result<DeleteResult, Error> {
+  /*  pub fn delete(&self, _title: &String) -> Result<DeleteResult, Error> {
         self.collection.delete_one(doc! { "title": _title }, None)
-    }
+    }*/
 
     // Get all documents
     pub fn get_json(&self) -> std::result::Result<std::vec::Vec<bson::ordered::OrderedDocument>, mongodb::error::Error> {
@@ -62,10 +71,10 @@ impl ApiService {
     }
 
     // Get documents with quiery
-    pub fn get_by(&self, param: &String) -> std::result::Result<std::vec::Vec<bson::ordered::OrderedDocument>, mongodb::error::Error> {
+   /* pub fn get_by(&self, param: &String) -> std::result::Result<std::vec::Vec<bson::ordered::OrderedDocument>, mongodb::error::Error> {
         let cursor = self.collection.find(doc! { "author": { "$regex": param } }, None).ok().expect("Failed to execute find.");
         let docs: Vec<_> = cursor.map(|doc| doc.unwrap()).collect();
         let _serialized = serde_json::to_string(&docs).unwrap();
         Ok(docs)
-    }
+    }*/
 }

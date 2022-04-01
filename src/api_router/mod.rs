@@ -1,5 +1,5 @@
 use crate::api_service::Data;
-use actix_web::{delete, get, post, web, HttpResponse, Responder};
+use actix_web::{ get, post, web, HttpResponse, Responder};
 
 #[get("/get-all")]
 async fn get_all_json(app_data: web::Data<crate::AppState>) -> impl Responder {
@@ -15,7 +15,7 @@ async fn get_all_json(app_data: web::Data<crate::AppState>) -> impl Responder {
 }
 
 
-#[get("/get-by/{param}")]
+/*#[get("/get-by/{param}")]
 async fn get_user_email(app_data: web::Data<crate::AppState>, param: web::Path<String>) -> impl Responder {
     let action = app_data.service_manager.api.get_by(&param);
     let result = web::block(move || action).await;
@@ -26,7 +26,7 @@ async fn get_user_email(app_data: web::Data<crate::AppState>, param: web::Path<S
             HttpResponse::InternalServerError().finish()
         }
     }
-}
+}*/
 
 #[post("/add")]
 async fn add_user(app_data: web::Data<crate::AppState>, data: web::Json<Data>) -> impl Responder {
@@ -54,7 +54,7 @@ async fn update_user(app_data: web::Data<crate::AppState>, data: web::Json<Data>
     }
 }
 
-#[delete("/delete")]
+/*#[delete("/delete")]
 async fn delete_user(app_data: web::Data<crate::AppState>, data: web::Json<Data>) -> impl Responder {
     let action = app_data.service_manager.api.delete(&data.title);
     let result = web::block(move || action).await;
@@ -65,13 +65,13 @@ async fn delete_user(app_data: web::Data<crate::AppState>, data: web::Json<Data>
             HttpResponse::InternalServerError().finish()
         }
     }
-}
+}*/
 
 // function that will be called on new Application to configure routes for this module
 pub fn init(cfg: &mut web::ServiceConfig) {
-    cfg.service(get_user_email);
+    //cfg.service(get_user_email);
     cfg.service(add_user);
     cfg.service(update_user);
-    cfg.service(delete_user);
+  //  cfg.service(delete_user);
     cfg.service(get_all_json);
 }

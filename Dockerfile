@@ -1,11 +1,9 @@
-# 1. This tells docker to use the Rust official image
-FROM rust
+FROM rust:1.40 as builder
+WORKDIR /usr/src/apirust
+COPY . .
+RUN cargo install --path .
 
-# 2. Copy the files in your machine to the Docker image
-COPY ./ ./
-
-# Build your program for release
-RUN cargo build
-
-# Run the binary
-CMD ["cargo","run"]
+FROM ubuntu
+RUN apt-get update && apt-get install -y extra-runtime-dependencies && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/local/cargo/bin/apirust /usr/local/bin/apirust
+CMD ["apirust"]

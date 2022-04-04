@@ -1,9 +1,9 @@
 FROM rust:latest
 
-WORKDIR /usr/scr/apirust
+WORKDIR /usr/scr/mi-api
  
 COPY . .
  
 RUN cargo build
 
-CMD cargo run 
+CMD ["cargo","run"] 

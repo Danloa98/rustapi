@@ -1,4 +1,4 @@
-FROM rust:latest
+FROM rust:1-buster
 ADD . /apirust
 WORKDIR /apirust
 RUN cargo build --release

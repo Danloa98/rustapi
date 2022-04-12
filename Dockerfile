@@ -1,11 +1,17 @@
-FROM rust:latest
+# Use the official Rust image.
+# https://hub.docker.com/_/rust
+FROM rust:1.60.0
 
-ADD . /usr/scr/apirust
-
-WORKDIR /usr/scr/apirust
- 
+# Copy local code to the container image.
+WORKDIR /usr/src/app
 COPY . .
- 
-RUN cargo build
 
-CMD ["./target/release/apirust"]
+# Install production dependencies and build a release artifact.
+RUN cargo build --release
+
+# Service must listen to $PORT environment variable.
+# T his default value facilitates local development.
+ENV PORT 8088
+
+# Run the web service on container startup.
+CMD ["./target/debug/plant_server.exe"]
